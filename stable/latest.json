@@ -1,8 +1,8 @@
 {
-  "schema_version": 1,
+  "schemaVersion": 1,
   "channel": "stable",
   "active": false,
-  "latest_version": null,
-  "manifest_url": null,
-  "message": "No signed stable knowledge pack has been published yet."
+  "publishedUtc": null,
+  "message": "No signed stable knowledge pack has been published yet.",
+  "latest": null
 }
