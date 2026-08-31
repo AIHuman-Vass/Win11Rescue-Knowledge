@@ -1,8 +1,15 @@
 {
-  "schemaVersion": 1,
-  "channel": "stable",
-  "active": false,
-  "publishedUtc": null,
-  "message": "No signed stable knowledge pack has been published yet.",
-  "latest": null
+    "schemaVersion":  1,
+    "channel":  "stable",
+    "active":  true,
+    "publishedUtc":  "2026-08-31T15:25:26.3186821Z",
+    "message":  "Signed Win11Rescue knowledge pack 2026.08.31.1825",
+    "latest":  {
+                   "version":  "2026.08.31.1825",
+                   "minEngineVersion":  "0.2.3",
+                   "packageUrl":  "https://raw.githubusercontent.com/AIHuman-Vass/Win11Rescue-Knowledge/main/stable/packs/2026.08.31.1825/knowledge-pack.json",
+                   "signatureUrl":  "https://raw.githubusercontent.com/AIHuman-Vass/Win11Rescue-Knowledge/main/stable/packs/2026.08.31.1825/knowledge-pack.sig",
+                   "sha256":  "342ceaa43a187c0814ab33e791560ef8454c2852a92b830a749ebbbfa27a2456",
+                   "publisherThumbprint":  "075685CEB4D796E69E8275486E444EB62826EBC5"
+               }
 }
