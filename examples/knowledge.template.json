@@ -1,44 +1,22 @@
 {
-  "schema_version": 1,
-  "pack_version": "2026.08.31.1",
-  "channel": "stable",
-  "generated_utc": "2026-08-31T14:45:00Z",
+  "schemaVersion": 1,
+  "version": "2026.08.31.1",
+  "publishedUtc": "2026-08-31T14:45:00Z",
+  "publisher": "CN=Win11Rescue Update Publisher",
+  "publisherThumbprint": "075685CEB4D796E69E8275486E444EB62826EBC5",
   "rules": [
     {
       "id": "WRR-SERV-001",
-      "title": "Pending servicing transaction detected",
-      "category": "servicing",
-      "windows_versions": ["Windows 11"],
-      "build_min": 22000,
-      "build_max": null,
-      "kb_ids": [],
+      "title": "Pending servicing operation detected",
+      "severity": "warning",
       "confidence": 82,
-      "risk": "MEDIUM",
-      "action_id": "REVERT_PENDING_SERVICING",
-      "probable_cause": "Windows has an incomplete servicing transaction that may prevent normal boot.",
-      "recommendation": "Correlate CBS, DISM and Panther evidence before applying a servicing rollback.",
-      "evidence": [
-        { "type": "servicing.install_pending_count", "operator": "gt", "value": 0 },
-        { "type": "servicing.pending_xml", "operator": "eq", "value": true }
-      ]
-    },
-    {
-      "id": "WRR-BOOT-001",
-      "title": "EFI present but BCD unreadable",
-      "category": "boot",
-      "windows_versions": ["Windows 11"],
-      "build_min": 22000,
-      "build_max": null,
-      "kb_ids": [],
-      "confidence": 90,
-      "risk": "LOW",
-      "action_id": "BCD_REBUILD",
-      "probable_cause": "The EFI System Partition is present but the Windows Boot Configuration Data store cannot be read.",
-      "recommendation": "Back up the EFI boot files and rebuild Windows boot files using the audited BCDBoot repair action.",
-      "evidence": [
-        { "type": "boot.efi_partition_present", "operator": "eq", "value": true },
-        { "type": "boot.bcd_readable", "operator": "eq", "value": false }
-      ]
+      "conditions": [
+        { "fact": "servicing.anyPending", "operator": "eq", "value": true }
+      ],
+      "probableCause": "Windows has an incomplete or pending servicing transaction.",
+      "recommendation": "Correlate CBS/Panther logs and the most recent update before considering a servicing rollback.",
+      "repairAction": "REVERT_PENDING_SERVICING",
+      "risk": "medium"
     }
   ]
 }
