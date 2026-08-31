@@ -39,7 +39,7 @@
           },
           "probableCause": { "type": "string", "minLength": 1, "maxLength": 4096 },
           "recommendation": { "type": "string", "minLength": 1, "maxLength": 4096 },
-          "repairAction": { "enum": ["NONE", "BITLOCKER_UNLOCK", "BCD_REBUILD", "REVERT_PENDING_SERVICING", "STORAGE_DIAGNOSIS"] },
+          "repairAction": { "enum": ["NONE", "BITLOCKER_UNLOCK", "BCD_REBUILD", "REVERT_PENDING_SERVICING", "DISM_RESTORE_HEALTH", "OFFLINE_SFC", "FILESYSTEM_REPAIR", "STORAGE_DIAGNOSIS", "DRIVER_ANALYSIS", "MANUAL_REVIEW"] },
           "risk": { "enum": ["none", "low", "medium", "high"] }
         },
         "additionalProperties": false
