@@ -1,46 +1,46 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/AIHuman-Vass/Win11Rescue-Knowledge/schemas/knowledge.schema.json",
-  "title": "Win11Rescue Knowledge Pack",
+  "title": "Win11Rescue Knowledge Pack v1",
   "type": "object",
-  "required": ["schema_version", "pack_version", "channel", "generated_utc", "rules"],
+  "required": ["schemaVersion", "version", "publishedUtc", "publisher", "publisherThumbprint", "rules"],
   "properties": {
-    "schema_version": { "const": 1 },
-    "pack_version": { "type": "string", "pattern": "^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$" },
-    "channel": { "enum": ["stable", "preview"] },
-    "generated_utc": { "type": "string", "format": "date-time" },
+    "schemaVersion": { "const": 1 },
+    "version": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+    "publishedUtc": { "type": "string", "format": "date-time" },
+    "publisher": { "type": "string", "minLength": 1 },
+    "publisherThumbprint": { "type": "string", "pattern": "^[A-Fa-f0-9]{40}$" },
     "rules": {
       "type": "array",
+      "minItems": 1,
+      "maxItems": 2000,
       "items": {
         "type": "object",
-        "required": ["id", "title", "category", "confidence", "risk", "action_id", "evidence"],
+        "required": ["id", "title", "severity", "confidence", "conditions", "probableCause", "recommendation", "repairAction", "risk"],
         "properties": {
-          "id": { "type": "string", "pattern": "^WRR-[A-Z0-9-]+$" },
-          "title": { "type": "string", "minLength": 1 },
-          "category": { "enum": ["boot", "servicing", "bitlocker", "storage", "upgrade", "driver", "filesystem", "general"] },
-          "windows_versions": { "type": "array", "items": { "type": "string" } },
-          "build_min": { "type": ["integer", "null"] },
-          "build_max": { "type": ["integer", "null"] },
-          "kb_ids": { "type": "array", "items": { "type": "string", "pattern": "^KB[0-9]+$" } },
+          "id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$", "maxLength": 96 },
+          "title": { "type": "string", "minLength": 1, "maxLength": 4096 },
+          "severity": { "enum": ["info", "warning", "critical"] },
           "confidence": { "type": "integer", "minimum": 0, "maximum": 100 },
-          "risk": { "enum": ["NONE", "LOW", "MEDIUM", "HIGH", "EXPERT"] },
-          "action_id": { "enum": ["NONE", "BITLOCKER_UNLOCK", "BCD_REBUILD", "REVERT_PENDING_SERVICING", "DISM_RESTORE_HEALTH", "OFFLINE_SFC", "FILESYSTEM_REPAIR", "STORAGE_DIAGNOSIS", "DRIVER_ANALYSIS", "MANUAL_REVIEW"] },
-          "probable_cause": { "type": "string" },
-          "recommendation": { "type": "string" },
-          "evidence": {
+          "conditions": {
             "type": "array",
             "minItems": 1,
+            "maxItems": 32,
             "items": {
               "type": "object",
-              "required": ["type", "operator", "value"],
+              "required": ["fact", "operator", "value"],
               "properties": {
-                "type": { "type": "string" },
-                "operator": { "enum": ["eq", "neq", "contains", "exists", "gt", "gte", "lt", "lte", "regex"] },
+                "fact": { "type": "string", "minLength": 1, "maxLength": 128 },
+                "operator": { "enum": ["eq", "ne", "gt", "ge", "lt", "le", "contains", "matches"] },
                 "value": {}
               },
               "additionalProperties": false
             }
-          }
+          },
+          "probableCause": { "type": "string", "minLength": 1, "maxLength": 4096 },
+          "recommendation": { "type": "string", "minLength": 1, "maxLength": 4096 },
+          "repairAction": { "enum": ["NONE", "BITLOCKER_UNLOCK", "BCD_REBUILD", "REVERT_PENDING_SERVICING", "STORAGE_DIAGNOSIS"] },
+          "risk": { "enum": ["none", "low", "medium", "high"] }
         },
         "additionalProperties": false
       }
