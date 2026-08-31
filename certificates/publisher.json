@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "subject": "CN=Win11Rescue Update Publisher",
+  "issuer": "CN=Win11Rescue Update Publisher",
+  "serialNumber": "6E10F6F874481AB44C59752F7526AECD",
+  "keyAlgorithm": "RSA",
+  "keySize": 3072,
+  "signatureAlgorithm": "sha256WithRSAEncryption",
+  "sha256Fingerprint": "29614E1C6DC230FA13DE9185F4AF48257322278DCD9890D693E44F9C9C15CD05",
+  "notBeforeUtc": "2026-08-31T14:22:48Z",
+  "notAfterUtc": "2031-08-31T14:32:46Z",
+  "usage": ["Digital Signature", "Code Signing"],
+  "privateKeyStoredInRepository": false
+}
