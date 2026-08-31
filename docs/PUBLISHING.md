@@ -1,22 +1,40 @@
 # Publishing signed Win11Rescue Knowledge Packs
 
-## Rules
+## Safety rules
 
 1. Knowledge packs are data only. Never place PowerShell, command lines, EXEs, DLLs, scripts, or arbitrary executable content in a pack.
-2. Packs may only select `action_id` values defined by the Win11Rescue engine.
-3. The private signing key must remain outside GitHub.
-4. A pack is published only after schema validation, SHA-256 calculation, detached RSA signing, and verification.
-5. `stable/latest.json` is updated last, after all pack files are present and verified.
+2. Packs may only select `repairAction` values implemented and whitelisted by the Win11Rescue engine.
+3. The private signing key must remain outside GitHub. Never upload a PFX/private key.
+4. Every active pack must pass SHA-256 verification and detached RSA/SHA-256 signature verification against the public certificate pinned in Win11Rescue.
+5. `stable/latest.json` is updated last, only after the pack and signature are present.
 
-## Recommended publish order
+## Repository layout
 
-1. Create `stable/packs/<version>/knowledge.json`.
-2. Validate against `schemas/knowledge.schema.json`.
-3. Compute SHA-256 over the exact `knowledge.json` bytes.
-4. Create detached signature `knowledge.sig` with the Win11Rescue Update Publisher private key.
-5. Create `manifest.json` with URLs, SHA-256, and compatible engine version.
-6. Verify signature using the public certificate.
-7. Publish all three files.
-8. Update `stable/latest.json` to point to the new manifest.
+```
+stable/
+  latest.json
+  packs/
+    <version>/
+      knowledge-pack.json
+      knowledge-pack.sig
+preview/
+  latest.json
+  packs/
+    <version>/
+      knowledge-pack.json
+      knowledge-pack.sig
+```
 
-The same process applies to `preview/`.
+## Publisher workflow
+
+On the authorized publisher Windows PC, run `tools/SIGN-STABLE-PACK.cmd` from Win11Rescue v0.2.3 or later. The publisher tool uses the private key in `Cert:\CurrentUser\My`, creates the exact JSON bytes, computes SHA-256, creates the detached RSA/SHA-256 signature and generates the matching `latest.json`.
+
+Publish in this order:
+
+1. `<channel>/packs/<version>/knowledge-pack.json`
+2. `<channel>/packs/<version>/knowledge-pack.sig`
+3. `<channel>/latest.json` **last**
+
+Win11Rescue rejects a pack if its signature, SHA-256, publisher thumbprint, rule structure, risk values, operators, or repair-action IDs do not pass local validation.
+
+The pinned official publisher SHA-1 thumbprint is `075685CEB4D796E69E8275486E444EB62826EBC5`.
