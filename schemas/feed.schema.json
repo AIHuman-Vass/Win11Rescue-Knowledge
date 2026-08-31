@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AIHuman-Vass/Win11Rescue-Knowledge/schemas/feed.schema.json",
+  "title": "Win11Rescue Channel Feed v1",
+  "type": "object",
+  "required": ["schemaVersion", "channel", "active", "message", "latest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "channel": { "enum": ["stable", "preview"] },
+    "active": { "type": "boolean" },
+    "publishedUtc": { "type": ["string", "null"], "format": "date-time" },
+    "message": { "type": "string" },
+    "latest": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["version", "minEngineVersion", "packageUrl", "signatureUrl", "sha256"],
+          "properties": {
+            "version": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+            "minEngineVersion": { "type": "string" },
+            "packageUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
+            "signatureUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
+            "sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
+            "publisherThumbprint": { "type": "string", "pattern": "^[A-Fa-f0-9]{40}$" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}
