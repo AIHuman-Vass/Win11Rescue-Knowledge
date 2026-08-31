@@ -25,4 +25,4 @@ Knowledge packs are data-only. They can describe diagnostic evidence, confidence
 
 ## Feed state
 
-The repository is initialized but no signed production pack is published yet. `stable/latest.json` remains `active: false` until the first pack is signed with the Win11Rescue publisher private key.
+The stable production feed is active. Current signed pack: `2026.08.31.1825`, minimum Win11Rescue engine version `0.2.3`.
