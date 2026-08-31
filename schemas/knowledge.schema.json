@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AIHuman-Vass/Win11Rescue-Knowledge/schemas/knowledge.schema.json",
+  "title": "Win11Rescue Knowledge Pack",
+  "type": "object",
+  "required": ["schema_version", "pack_version", "channel", "generated_utc", "rules"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "pack_version": { "type": "string", "pattern": "^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$" },
+    "channel": { "enum": ["stable", "preview"] },
+    "generated_utc": { "type": "string", "format": "date-time" },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "category", "confidence", "risk", "action_id", "evidence"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^WRR-[A-Z0-9-]+$" },
+          "title": { "type": "string", "minLength": 1 },
+          "category": { "enum": ["boot", "servicing", "bitlocker", "storage", "upgrade", "driver", "filesystem", "general"] },
+          "windows_versions": { "type": "array", "items": { "type": "string" } },
+          "build_min": { "type": ["integer", "null"] },
+          "build_max": { "type": ["integer", "null"] },
+          "kb_ids": { "type": "array", "items": { "type": "string", "pattern": "^KB[0-9]+$" } },
+          "confidence": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "risk": { "enum": ["NONE", "LOW", "MEDIUM", "HIGH", "EXPERT"] },
+          "action_id": { "enum": ["NONE", "BITLOCKER_UNLOCK", "BCD_REBUILD", "REVERT_PENDING_SERVICING", "DISM_RESTORE_HEALTH", "OFFLINE_SFC", "FILESYSTEM_REPAIR", "STORAGE_DIAGNOSIS", "DRIVER_ANALYSIS", "MANUAL_REVIEW"] },
+          "probable_cause": { "type": "string" },
+          "recommendation": { "type": "string" },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["type", "operator", "value"],
+              "properties": {
+                "type": { "type": "string" },
+                "operator": { "enum": ["eq", "neq", "contains", "exists", "gt", "gte", "lt", "lte", "regex"] },
+                "value": {}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
